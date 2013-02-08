@@ -3,19 +3,29 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to git-reference's documentation!
+Pro Git book
 =========================================
 
-Contents:
+	The entire Pro Git book, written by Scott Chacon and published by Apress, is available here. All content is licensed under the Creative Commons Attribution Non Commercial Share Alike 3.0 license. Print versions of the book are available on Amazon.com.
 
 .. toctree::
    :maxdepth: 2
    
-   Geting-Started/index
+   Getting-Started/index
+   Git-Basics/index
+   Git-Branching/index
+   Git-on-the-Server/index
+   Distributed-Git/index
+   Git-Tools/index
+   Customizing-Git/index
+   Git-and-Other-Systems/index
+   Git-Internals/index
+
+   commands/index
 
 
 
-Indices and tables
+索引和表格
 ==================
 
 * :ref:`genindex`
