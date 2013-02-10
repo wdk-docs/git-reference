@@ -5,4 +5,6 @@ Contents:
 
 .. toctree::
 	
-	
+	Git-and-Subversion
+	Migrating-to-Git
+	Summary

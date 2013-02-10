@@ -5,4 +5,7 @@ Contents:
 
 .. toctree::
 	
-	
+	Distributed-Workflows
+	Contributing-to-a-Project
+	Maintaining-a-Project
+	Summary
