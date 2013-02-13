@@ -2,6 +2,8 @@
    sphinx-quickstart on Fri Feb  8 11:16:01 2013.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
+   
+   本文修改自 http://git-scm.com/book/zh
 
 Pro Git book
 =========================================
