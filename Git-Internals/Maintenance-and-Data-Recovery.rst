@@ -199,7 +199,7 @@ size-pack 是以千字节为单位表示的 packfiles 的大小，因此已经�
  Writing objects: 100% (19/19), done.
  Total 19 (delta 3), reused 16 (delta 1)
 
-看一下节省了多少空间。
+看一下节省了多少空间::
 
  $ git count-objects -v
  count: 8

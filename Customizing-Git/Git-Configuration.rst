@@ -5,6 +5,7 @@
 
  $ git config --global user.name "John Doe"
  $ git config --global user.email johndoe@example.com
+ 
 从现在开始，你会了解到一些类似以上但更为有趣的设置选项来自定义 Git。
 
 先过一遍第一章中提到的 Git 配置细节。Git 使用一系列的配置文件来存储你定义的偏好，它首先会查找/etc/gitconfig文件，该文件含有 对系统上所有用户及他们所拥有的仓库都生效的配置值（译注::gitconfig是全局配置文件）， 如果传递--system选项给git config命令， Git 会读写这个文件。
@@ -15,7 +16,8 @@
 
 客户端基本配置
 -----------------------
-Git 能够识别的配置项被分为了两大类::客户端和服务器端，其中大部分基于你个人工作偏好，属于客户端配置。尽管有数不尽的选项，但我只阐述 其中经常使用或者会对你的工作流产生巨大影响的选项，如果你想观察你当前的 Git 能识别的选项列表，请运行
+
+Git 能够识别的配置项被分为了两大类::客户端和服务器端，其中大部分基于你个人工作偏好，属于客户端配置。尽管有数不尽的选项，但我只阐述 其中经常使用或者会对你的工作流产生巨大影响的选项，如果你想观察你当前的 Git 能识别的选项列表，请运行::
 
  $ git config --help
  git config的手册页（译注::以man命令的显示方式）非常细致地罗列了所有可用的配置项。
@@ -26,7 +28,7 @@ Git默认会调用你的环境变量editor定义的值作为文本编辑器，�
 
  $ git config --global core.editor emacs
 
-现在无论你的环境变量editor被定义成什么，Git 都会调用Emacs编辑信息。
+现在无论你的环境变量editor被定义成什么，Git 都会调用Emacs编辑信息::
 
  commit.template
 
@@ -62,7 +64,7 @@ Git默认会调用你的环境变量editor定义的值作为文本编辑器，�
  ~
  ".git/COMMIT_EDITMSG" 14L, 297C
 
-如果你有特定的策略要运用在提交信息上，在系统上创建一个模板文件，设置 Git 默认使用它，这样当提交时，你的策略每次都会被运用。
+如果你有特定的策略要运用在提交信息上，在系统上创建一个模板文件，设置 Git 默认使用它，这样当提交时，你的策略每次都会被运用::
 
  core.pager
 
@@ -70,7 +72,7 @@ core.pager指定 Git 运行诸如log、diff等所使用的分页器，你能设�
 
  $ git config --global core.pager ''
 
-这样不管命令的输出量多少，都会在一页显示所有内容。
+这样不管命令的输出量多少，都会在一页显示所有内容::
 
  user.signingkey
 
@@ -83,7 +85,7 @@ core.pager指定 Git 运行诸如log、diff等所使用的分页器，你能设�
  $ git tag -s <tag-name>
  core.excludesfile
 
-正如第二章所述，你能在项目库的.gitignore文件里头用模式来定义那些无需纳入 Git 管理的文件，这样它们不会出现在未跟踪列表， 也不会在你运行git add后被暂存。然而，如果你想用项目库之外的文件来定义那些需被忽略的文件的话，用core.excludesfile 通知 Git 该文件所处的位置，文件内容和.gitignore类似。
+正如第二章所述，你能在项目库的.gitignore文件里头用模式来定义那些无需纳入 Git 管理的文件，这样它们不会出现在未跟踪列表， 也不会在你运行git add后被暂存。然而，如果你想用项目库之外的文件来定义那些需被忽略的文件的话，用core.excludesfile 通知 Git 该文件所处的位置，文件内容和.gitignore类似::
 
  help.autocorrect
 
@@ -100,9 +102,9 @@ core.pager指定 Git 运行诸如log、diff等所使用的分页器，你能设�
 Git中的着色
 --------------------------
 
-Git能够为输出到你终端的内容着色，以便你可以凭直观进行快速、简单地分析，有许多选项能供你使用以符合你的偏好。
+Git能够为输出到你终端的内容着色，以便你可以凭直观进行快速、简单地分析，有许多选项能供你使用以符合你的偏好::
 
-color.ui
+ color.ui
 
 Git会按照你需要自动为大部分的输出加上颜色，你能明确地规定哪些需要着色以及怎样着色，设置color.ui为true来打开所有的默认终端着色。
 
@@ -110,9 +112,9 @@ $ git config --global color.ui true
 
 设置好以后，当输出到终端时，Git 会为之加上颜色。其他的参数还有false和always，false意味着不为输出着色，而always则表明在任何情况下都要着色，即使 Git 命令被重定向到文件或管道。Git 1.5.5版本引进了此项配置，如果你拥有的版本更老，你必须对颜色有关选项各自进行详细地设置。
 
-你会很少用到color.ui = always，在大多数情况下，如果你想在被重定向的输出中插入颜色码，你能传递--color标志给 Git 命令来迫使它这么做，color.ui = true应该是你的首选。
+你会很少用到color.ui = always，在大多数情况下，如果你想在被重定向的输出中插入颜色码，你能传递--color标志给 Git 命令来迫使它这么做，color.ui = true应该是你的首选::
 
-color.*
+ color.*
 
 想要具体到哪些命令输出需要被着色以及怎样着色或者 Git 的版本很老，你就要用到和具体命令有关的颜色配置选项，它们都能被置为true、false或always::
 
@@ -150,7 +152,7 @@ diff包装脚本首先确定传递过来7个参数，随后把其中2个传递�
 
  path old-file old-hex old-mode new-file new-hex new-mode
 
-由于你仅仅需要old-file和new-file参数，用diff包装脚本来传递它们吧。
+由于你仅仅需要old-file和new-file参数，用diff包装脚本来传递它们吧::
 
  $ cat /usr/local/bin/extDiff 
  #!/bin/sh
@@ -183,11 +185,12 @@ diff包装脚本首先确定传递过来7个参数，随后把其中2个传递�
 
  $ git diff 32d1776b1^ 32d1776b1
 
-命令行居然没有发现diff命令的输出，其实，Git 调用了刚刚设置的P4Merge，它看起来像图7-1这样::
+命令行居然没有发现diff命令的输出，其实，Git 调用了刚刚设置的P4Merge，它看起来像图7-1这样:
 
-
+.. image:: /_static/images/18333fig0701-tn.png
 
 Figure 7-1. P4Merge.
+
 当你设法合并两个分支，结果却有冲突时，运行git mergetool，Git 会调用P4Merge让你通过图形界面来解决冲突。
 
 设置包装脚本的好处是你能简单地改变diff和merge工具，例如把extDiff和extMerge改成KDiff3，要做的仅仅是编辑extMerge脚本文件::
@@ -206,19 +209,19 @@ Git预先设置了许多其他的合并和解决冲突的工具，而你不必�
 
 格式化与空白
 ------------------------------
-格式化与空白是许多开发人员在协作时，特别是在跨平台情况下，遇到的令人头疼的细小问题。由于编辑器的不同或者Windows程序员在跨平台项目中的文件行尾加入了回车换行符，一些细微的空格变化会不经意地进入大家合作的工作或提交的补丁中。不用怕，Git 的一些配置选项会帮助你解决这些问题。
+格式化与空白是许多开发人员在协作时，特别是在跨平台情况下，遇到的令人头疼的细小问题。由于编辑器的不同或者Windows程序员在跨平台项目中的文件行尾加入了回车换行符，一些细微的空格变化会不经意地进入大家合作的工作或提交的补丁中。不用怕，Git 的一些配置选项会帮助你解决这些问题::
 
-core.autocrlf
+ core.autocrlf
 
 假如你正在Windows上写程序，又或者你正在和其他人合作，他们在Windows上编程，而你却在其他系统上，在这些情况下，你可能会遇到行尾结束符问题。这是因为Windows使用回车和换行两个字符来结束一行，而Mac和Linux只使用换行一个字符。虽然这是小问题，但它会极大地扰乱跨平台协作。
 
 Git可以在你提交时自动地把行结束符CRLF转换成LF，而在签出代码时把LF转换成CRLF。用core.autocrlf来打开此项功能，如果是在Windows系统上，把它设置成true，这样当签出代码时，LF会被转换成CRLF::
 
-$ git config --global core.autocrlf true
+ $ git config --global core.autocrlf true
 
 Linux或Mac系统使用LF作为行结束符，因此你不想 Git 在签出文件时进行自动的转换；当一个以CRLF为行结束符的文件不小心被引入时你肯定想进行修正，把core.autocrlf设置成input来告诉 Git 在提交时把CRLF转换成LF，签出时不转换::
 
-$ git config --global core.autocrlf input
+ $ git config --global core.autocrlf input
 
 这样会在Windows系统上的签出文件中保留CRLF，会在Mac和Linux系统上，包括仓库中保留LF。
 
@@ -253,21 +256,27 @@ Git预先设置了一些选项来探测和修正空白问题，其4种主要选�
 Git服务器端的配置选项并不多，但仍有一些饶有生趣的选项值得你一看。
 
  receive.fsckObjects
+ 
 Git默认情况下不会在推送期间检查所有对象的一致性。虽然会确认每个对象的有效性以及是否仍然匹配SHA-1检验和，但 Git 不会在每次推送时都检查一致性。对于 Git 来说，库或推送的文件越大，这个操作代价就相对越高，每次推送会消耗更多时间，如果想在每次推送时 Git 都检查一致性，设置 receive.fsckObjects 为true来强迫它这么做::
 
  $ git config --system receive.fsckObjects true
-现在 Git 会在每次推送生效前检查库的完整性，确保有问题的客户端没有引入破坏性的数据。
+ 
+现在 Git 会在每次推送生效前检查库的完整性，确保有问题的客户端没有引入破坏性的数据::
 
  receive.denyNonFastForwards
+ 
 如果对已经被推送的提交历史做衍合，继而再推送，又或者以其它方式推送一个提交历史至远程分支，且该提交历史没在这个远程分支中，这样的推送会被拒绝。这通常是个很好的禁止策略，但有时你在做衍合并确定要更新远程分支，可以在push命令后加-f标志来强制更新。
 
 要禁用这样的强制更新功能，可以设置receive.denyNonFastForwards::
 
  $ git config --system receive.denyNonFastForwards true
-稍后你会看到，用服务器端的接收钩子也能达到同样的目的。这个方法可以做更细致的控制，例如::禁用特定的用户做强制更新。
+ 
+稍后你会看到，用服务器端的接收钩子也能达到同样的目的。这个方法可以做更细致的控制，例如::禁用特定的用户做强制更新::
 
  receive.denyDeletes
+ 
 规避denyNonFastForwards策略的方法之一就是用户删除分支，然后推回新的引用。在更新的 Git 版本中（从1.6.1版本开始），把receive.denyDeletes设置为true::
 
  $ git config --system receive.denyDeletes true
+ 
 这样会在推送过程中阻止删除分支和标签 — 没有用户能够这么做。要删除远程分支，必须从服务器手动删除引用文件。通过用户访问控制列表也能这么做，在本章结尾将会介绍这些有趣的方式。

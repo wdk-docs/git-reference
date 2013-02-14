@@ -51,7 +51,7 @@ Subversion
 
 你还需要一点 post-import（导入后） 清理工作。最起码的，应该清理一下 git svn 创建的那些怪异的索引结构。首先要移动标签，把它们从奇怪的远程分支变成实际的标签，然后把剩下的分支移动到本地。
 
-要把标签变成合适的 Git 标签，运行
+要把标签变成合适的 Git 标签，运行::
 
  $ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
  $ rm -Rf .git/refs/remotes/tags
@@ -195,7 +195,7 @@ Perforce
 
  date = convert_dir_to_date(dir)
 
-而 convert_dir_to_date 则定义为
+而 convert_dir_to_date 则定义为::
 
  def convert_dir_to_date(dir)
    if dir == 'current'
@@ -255,7 +255,7 @@ Perforce
 
 我们重用了前面定义过的 export_data，因为这里和指明提交注释的格式如出一辙。
 
-最后一项工作是返回当前的标记以便下次循环的使用。
+最后一项工作是返回当前的标记以便下次循环的使用::
 
  return mark
 

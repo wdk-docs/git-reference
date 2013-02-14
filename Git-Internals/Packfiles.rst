@@ -1,7 +1,7 @@
 Packfiles
 ===============================================
 
-我们再来看一下 test Git 仓库。目前为止，有 11 个对象 ── 4 个 blob，3 个 tree，3 个 commit 以及一个 tag:
+我们再来看一下 test Git 仓库。目前为止，有 11 个对象 ── 4 个 blob，3 个 tree，3 个 commit 以及一个 tag::
 
  $ find .git/objects -type f
  .git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2

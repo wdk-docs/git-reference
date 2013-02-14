@@ -39,9 +39,10 @@ Git References
 
 现在，你的 Git 数据库应该看起来像图 9-4 一样。
 
-
+.. image:: /_static/images/18333fig0904-tn.png
 
 图 9-4. 包含分支引用的 Git 目录对象
+
 每当你执行 git branch (分支名称) 这样的命令，Git 基本上就是执行 update-ref 命令，把你现在所在分支中最后一次提交的 SHA-1 值，添加到你要创建的分支的引用。
 
 HEAD 标记
@@ -124,7 +125,7 @@ Remotes
  To git@github.com:schacon/simplegit-progit.git
     a11bef0..ca82a6d  master -> master
 
-然后查看 refs/remotes/origin/master 这个文件，你就会发现 origin remote 中的 master 分支就是你最后一次和服务器的通信。
+然后查看 refs/remotes/origin/master 这个文件，你就会发现 origin remote 中的 master 分支就是你最后一次和服务器的通信::
 
  $ cat .git/refs/remotes/origin/master
  ca82a6dff817ec66f44342007202690a93763949

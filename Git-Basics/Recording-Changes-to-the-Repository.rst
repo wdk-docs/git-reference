@@ -14,15 +14,15 @@
 检查当前文件状态
 ----------------------------
 
-要确定哪些文件当前处于什么状态，可以用 git status 命令。如果在克隆仓库之后立即执行此命令，会看到类似这样的输出::
+要确定哪些文件当前处于什么状态，可以用 **git status** 命令。如果在克隆仓库之后立即执行此命令，会看到类似这样的输出::
 
  $ git status
  # On branch master
  nothing to commit (working directory clean)
 
-这说明你现在的工作目录相当干净。换句话说，当前没有任何跟踪着的文件，也没有任何文件在上次提交后更改过。此外，上面的信息还表明，当前目录下没有出现任何处于未跟踪的新文件，否则 Git 会在这里列出来。最后，该命令还显示了当前所在的分支是 master，这是默认的分支名称，实际是可以修改的，现在先不用考虑。下一章我们就会详细讨论分支和引用。
+这说明你现在的工作目录相当干净。换句话说，当前没有任何跟踪着的文件，也没有任何文件在上次提交后更改过。此外，上面的信息还表明，当前目录下没有出现任何处于未跟踪的新文件，否则 Git 会在这里列出来。最后，该命令还显示了当前所在的分支是 *master*，这是默认的分支名称，实际是可以修改的，现在先不用考虑。下一章我们就会详细讨论分支和引用。
 
-现在让我们用 vim 编辑一个新文件 README，保存退出后运行 git status 会看到该文件出现在未跟踪文件列表中::
+现在让我们用 *vim* 编辑一个新文件 README，保存退出后运行 **git status** 会看到该文件出现在未跟踪文件列表中::
 
  $ vim README
  $ git status
@@ -33,16 +33,16 @@
  #   README
  nothing added to commit but untracked files present (use "git add" to track)
 
-就是在“Untracked files”这行下面。Git 不会自动将之纳入跟踪范围，除非你明明白白地告诉它“我需要跟踪该文件”，因而不用担心把临时文件什么的也归入版本管理。不过现在的例子中，我们确实想要跟踪管理 README 这个文件。
+就是在 *“Untracked files”* 这行下面。Git 不会自动将之纳入跟踪范围，除非你明明白白地告诉它“我需要跟踪该文件”，因而不用担心把临时文件什么的也归入版本管理。不过现在的例子中，我们确实想要跟踪管理 README 这个文件。
 
 跟踪新文件
 ----------------------------
 
-使用命令 git add 开始跟踪一个新文件。所以，要跟踪 README 文件，运行::
+使用命令 **git add** 开始跟踪一个新文件。所以，要跟踪 *README* 文件，运行::
 
-$ git add README
+ $ git add README
 
-此时再运行 git status 命令，会看到 README 文件已被跟踪，并处于暂存状态::
+此时再运行 *git status* 命令，会看到 README 文件已被跟踪，并处于暂存状态::
 
  $ git status
  # On branch master
@@ -52,12 +52,12 @@ $ git add README
  #   new file:   README
  #
 
-只要在 “Changes to be committed” 这行下面的，就说明是已暂存状态。如果此时提交，那么该文件此时此刻的版本将被留存在历史记录中。你可能会想起之前我们使用 git init 后就运行了 git add 命令，开始跟踪当前目录下的文件。在 git add 后面可以指明要跟踪的文件或目录路径。如果是目录的话，就说明要递归跟踪该目录下的所有文件。（译注：其实 git add 的潜台词就是把目标文件快照放入暂存区域，也就是 add file into staged area，同时未曾跟踪过的文件标记为需要跟踪。这样就好理解后续 add 操作的实际意义了。）
+只要在 *“Changes to be committed”* 这行下面的，就说明是已暂存状态。如果此时提交，那么该文件此时此刻的版本将被留存在历史记录中。你可能会想起之前我们使用 *git init* 后就运行了 *git add* 命令，开始跟踪当前目录下的文件。在 *git add* 后面可以指明要跟踪的文件或目录路径。如果是目录的话，就说明要递归跟踪该目录下的所有文件。（译注：其实 *git add* 的潜台词就是把目标文件快照放入暂存区域，也就是 *add file into staged area* ，同时未曾跟踪过的文件标记为需要跟踪。这样就好理解后续 *add* 操作的实际意义了。）
 
 暂存已修改文件
 ----------------------------
 
-现在我们修改下之前已跟踪过的文件 benchmarks.rb，然后再次运行 status 命令，会看到这样的状态报告::
+现在我们修改下之前已跟踪过的文件 *benchmarks.rb* ，然后再次运行 *status* 命令，会看到这样的状态报告::
 
  $ git status
  # On branch master
@@ -72,7 +72,7 @@ $ git add README
  #   modified:   benchmarks.rb
  #
 
-文件 benchmarks.rb 出现在 “Changes not staged for commit” 这行下面，说明已跟踪文件的内容发生了变化，但还没有放到暂存区。要暂存这次更新，需要运行 git add 命令（这是个多功能命令，根据目标文件的状态不同，此命令的效果也不同：可以用它开始跟踪新文件，或者把已跟踪的文件放到暂存区，还能用于合并时把有冲突的文件标记为已解决状态等）。现在让我们运行 git add 将 benchmarks.rb 放到暂存区，然后再看看 git status 的输出::
+文件 *benchmarks.rb* 出现在 *“Changes not staged for commit”* 这行下面，说明已跟踪文件的内容发生了变化，但还没有放到暂存区。要暂存这次更新，需要运行 **git add** 命令（这是个多功能命令，根据目标文件的状态不同，此命令的效果也不同：可以用它开始跟踪新文件，或者把已跟踪的文件放到暂存区，还能用于合并时把有冲突的文件标记为已解决状态等）。现在让我们运行 **git add** 将 *benchmarks.rb* 放到暂存区，然后再看看 **git status** 的输出::
 
  $ git add benchmarks.rb
  $ git status
@@ -84,7 +84,7 @@ $ git add README
  #   modified:   benchmarks.rb
  #
 
-现在两个文件都已暂存，下次提交时就会一并记录到仓库。假设此时，你想要在 benchmarks.rb 里再加条注释，重新编辑存盘后，准备好提交。不过且慢，再运行 git status 看看::
+现在两个文件都已暂存，下次提交时就会一并记录到仓库。假设此时，你想要在 *benchmarks.rb* 里再加条注释，重新编辑存盘后，准备好提交。不过且慢，再运行 **git status** 看看::
 
  $ vim benchmarks.rb 
  $ git status
@@ -101,7 +101,7 @@ $ git add README
  #   modified:   benchmarks.rb
  #
 
-怎么回事？benchmarks.rb 文件出现了两次！一次算未暂存，一次算已暂存，这怎么可能呢？好吧，实际上 Git 只不过暂存了你运行 git add 命令时的版本，如果现在提交，那么提交的是添加注释前的版本，而非当前工作目录中的版本。所以，运行了 git add 之后又作了修订的文件，需要重新运行 git add 把最新版本重新暂存起来::
+怎么回事？ *benchmarks.rb* 文件出现了两次！一次算未暂存，一次算已暂存，这怎么可能呢？好吧，实际上 Git 只不过暂存了你运行 **git add** 命令时的版本，如果现在提交，那么提交的是添加注释前的版本，而非当前工作目录中的版本。所以，运行了 **git add** 之后又作了修订的文件，需要重新运行 **git add** 把最新版本重新暂存起来::
 
  $ git add benchmarks.rb
  $ git status
@@ -116,15 +116,15 @@ $ git add README
 忽略某些文件
 ----------------------------
 
-一般我们总会有些文件无需纳入 Git 的管理，也不希望它们总出现在未跟踪文件列表。通常都是些自动生成的文件，比如日志文件，或者编译过程中创建的临时文件等。我们可以创建一个名为 **.gitignore** 的文件，列出要忽略的文件模式。来看一个实际的例子::
+一般我们总会有些文件无需纳入 Git 的管理，也不希望它们总出现在未跟踪文件列表。通常都是些自动生成的文件，比如日志文件，或者编译过程中创建的临时文件等。我们可以创建一个名为 *.gitignore* 的文件，列出要忽略的文件模式。来看一个实际的例子::
 
  $ cat .gitignore
  *.[oa]
  *~
 
-第一行告诉 Git 忽略所有以 .o 或 .a 结尾的文件。一般这类对象文件和存档文件都是编译过程中出现的，我们用不着跟踪它们的版本。第二行告诉 Git 忽略所有以波浪符（~）结尾的文件，许多文本编辑软件（比如 Emacs）都用这样的文件名保存副本。此外，你可能还需要忽略 log，tmp 或者 pid 目录，以及自动生成的文档等等。要养成一开始就设置好 .gitignore 文件的习惯，以免将来误提交这类无用的文件。
+第一行告诉 Git 忽略所有以 *.o* 或 *.a* 结尾的文件。一般这类对象文件和存档文件都是编译过程中出现的，我们用不着跟踪它们的版本。第二行告诉 Git 忽略所有以波浪符（~）结尾的文件，许多文本编辑软件（比如 Emacs）都用这样的文件名保存副本。此外，你可能还需要忽略 *log*，*tmp* 或者 *pid* 目录，以及自动生成的文档等等。要养成一开始就设置好 *.gitignore* 文件的习惯，以免将来误提交这类无用的文件。
 
-文件 **.gitignore** 的格式规范如下：
+文件 *.gitignore* 的格式规范如下：
 
 * 所有空行或者以注释符号 ＃ 开头的行都会被 Git 忽略。
 * 可以使用标准的 glob 模式匹配。
@@ -133,7 +133,7 @@ $ git add README
 
 所谓的 glob 模式是指 shell 所使用的简化了的正则表达式。星号（*）匹配零个或多个任意字符；[abc] 匹配任何一个列在方括号中的字符（这个例子要么匹配一个 a，要么匹配一个 b，要么匹配一个 c）；问号（?）只匹配一个任意字符；如果在方括号中使用短划线分隔两个字符，表示所有在这两个字符范围内的都可以匹配（比如 [0-9] 表示匹配所有 0 到 9 的数字）。
 
-我们再看一个 .gitignore 文件的例子::
+我们再看一个 *.gitignore* 文件的例子::
 
  # 此为注释 – 将被 Git 忽略
  *.a       # 忽略所有 .a 结尾的文件
@@ -183,7 +183,7 @@ $ git add README
 
 此命令比较的是工作目录中当前文件和暂存区域快照之间的差异，也就是修改之后还没有暂存起来的变化内容。
 
-若要看已经暂存起来的文件和上次提交时的快照之间的差异，可以用 git diff --cached 命令。（Git 1.6.1 及更高版本还允许使用 git diff --staged，效果是相同的，但更好记些。）来看看实际的效果::
+若要看已经暂存起来的文件和上次提交时的快照之间的差异，可以用 **git diff --cached** 命令。（Git 1.6.1 及更高版本还允许使用  **git diff --staged** ，效果是相同的，但更好记些。）来看看实际的效果::
 
  $ git diff --cached
  diff --git a/README b/README
@@ -198,9 +198,9 @@ $ git add README
  +
  +Grit is a Ruby library for extracting information from a Git repository
 
-请注意，单单 git diff 不过是显示还没有暂存起来的改动，而不是这次工作和上次提交之间的差异。所以有时候你一下子暂存了所有更新过的文件后，运行 git diff 后却什么也没有，就是这个原因。
+请注意，单单 **git diff** 不过是显示还没有暂存起来的改动，而不是这次工作和上次提交之间的差异。所以有时候你一下子暂存了所有更新过的文件后，运行 **git diff** 后却什么也没有，就是这个原因。
 
-像之前说的，暂存 benchmarks.rb 后再编辑，运行 git status 会看到暂存前后的两个版本::
+像之前说的，暂存 *benchmarks.rb* 后再编辑，运行 **git status** 会看到暂存前后的两个版本::
 
  $ git add benchmarks.rb
  $ echo '# test line' >> benchmarks.rb
@@ -216,7 +216,7 @@ $ git add README
  #   modified:   benchmarks.rb
  #
 
-现在运行 git diff 看暂存前后的变化::
+现在运行 **git diff** 看暂存前后的变化::
 
  $ git diff
  diff --git a/benchmarks.rb b/benchmarks.rb
@@ -229,7 +229,7 @@ $ git add README
   ##pp Grit::GitRuby.cache_client.stats
  +# test line
 
-然后用 git diff --cached 查看已经暂存起来的变化::
+然后用 **git diff --cached** 查看已经暂存起来的变化::
 
  $ git diff --cached
  diff --git a/benchmarks.rb b/benchmarks.rb
@@ -255,7 +255,7 @@ $ git add README
 
  $ git commit
 
-这种方式会启动文本编辑器以便输入本次提交的说明。（默认会启用 shell 的环境变量 $EDITOR 所指定的软件，一般都是 vim 或 emacs。当然也可以按照第一章介绍的方式，使用 git config --global core.editor 命令设定你喜欢的编辑软件。）
+这种方式会启动文本编辑器以便输入本次提交的说明。（默认会启用 shell 的环境变量 $EDITOR 所指定的软件，一般都是 vim 或 emacs。当然也可以按照第一章介绍的方式，使用 **git config --global core.editor** 命令设定你喜欢的编辑软件。）
 
 编辑器会显示类似下面的文本信息（本例选用 Vim 的屏显方式展示）::
 
@@ -288,7 +288,7 @@ $ git add README
 跳过使用暂存区域
 ----------------------------
 
-尽管使用暂存区域的方式可以精心准备要提交的细节，但有时候这么做略显繁琐。Git 提供了一个跳过使用暂存区域的方式，只要在提交的时候，给 git commit 加上 -a 选项，Git 就会自动把所有已经跟踪过的文件暂存起来一并提交，从而跳过 git add 步骤::
+尽管使用暂存区域的方式可以精心准备要提交的细节，但有时候这么做略显繁琐。Git 提供了一个跳过使用暂存区域的方式，只要在提交的时候，给 **git commit** 加上 -a 选项，Git 就会自动把所有已经跟踪过的文件暂存起来一并提交，从而跳过 git add 步骤::
 
  $ git status
  # On branch master
@@ -301,14 +301,14 @@ $ git add README
  [master 83e38c7] added new benchmarks
   1 files changed, 5 insertions(+), 0 deletions(-)
 
-看到了吗？提交之前不再需要 git add 文件 benchmarks.rb 了。
+看到了吗？提交之前不再需要 **git add** 文件 *benchmarks.rb* 了。
 
 移除文件
 ----------------------------
 
-要从 Git 中移除某个文件，就必须要从已跟踪文件清单中移除（确切地说，是从暂存区域移除），然后提交。可以用 git rm 命令完成此项工作，并连带从工作目录中删除指定的文件，这样以后就不会出现在未跟踪文件清单中了。
+要从 Git 中移除某个文件，就必须要从已跟踪文件清单中移除（确切地说，是从暂存区域移除），然后提交。可以用 **git rm** 命令完成此项工作，并连带从工作目录中删除指定的文件，这样以后就不会出现在未跟踪文件清单中了。
 
-如果只是简单地从工作目录中手工删除文件，运行 git status 时就会在 “Changes not staged for commit” 部分（也就是未暂存清单）看到::
+如果只是简单地从工作目录中手工删除文件，运行 **git status** 时就会在 *“Changes not staged for commit”* 部分（也就是未暂存清单）看到::
 
  $ rm grit.gemspec
  $ git status
@@ -320,7 +320,7 @@ $ git add README
  #       deleted:    grit.gemspec
  #
 
-然后再运行 git rm 记录此次移除文件的操作::
+然后再运行 **git rm** 记录此次移除文件的操作::
 
  $ git rm grit.gemspec
  rm 'grit.gemspec'
@@ -371,7 +371,7 @@ $ git add README
  #       renamed:    README.txt -> README
  #
 
-其实，运行 git mv 就相当于运行了下面三条命令::
+其实，运行 **git mv** 就相当于运行了下面三条命令::
 
  $ mv README.txt README
  $ git rm README.txt

@@ -14,6 +14,8 @@
 所有以上这些问题都会或多或少影响到最终采用的工作流。接下来，我会在一系列由简入繁的具体用例中，逐一阐述。此后在实践时，应该可以借鉴这里的例子，略作调整，以满足实际需要构建自己的工作流。
 
 提交指南
+-----------------------
+
 开始分析特定用例之前，先来了解下如何撰写提交说明。一份好的提交指南可以帮助协作者更轻松更有效地配合。Git 项目本身就提供了一份文档（Git 项目源代码目录中 Documentation/SubmittingPatches），列数了大量提示，从如何编撰提交说明到提交补丁，不一而足。
 
 首先，请不要在更新中提交多余的白字符（whitespace）。Git 有种检查此类问题的方法，在提交之前，先运行 git diff --check，会把可能的多余白字符修正列出来。下面的示例，我已经把终端中显示为红色的白字符用 X 替换掉::
@@ -32,27 +34,30 @@
 
 最后需要谨记的是提交说明的撰写。写得好可以让大家协作起来更轻松。一般来说，提交说明最好限制在一行以内，50 个字符以下，简明扼要地描述更新内容，空开一行后，再展开详细注解。Git 项目本身需要开发者撰写详尽注解，包括本次修订的因由，以及前后不同实现之间的比较，我们也该借鉴这种做法。另外，提交说明应该用祈使现在式语态，比如，不要说成 “I added tests for” 或 “Adding tests for” 而应该用 “Add tests for”。下面是来自 tpope.net 的 Tim Pope 原创的提交说明格式模版，供参考::
 
-本次更新的简要描述（50 个字符以内）
+ 本次更新的简要描述（50 个字符以内）
 
-如果必要，此处展开详尽阐述。段落宽度限定在 72 个字符以内。
-某些情况下，第一行的简要描述将用作邮件标题，其余部分作为邮件正文。
-其间的空行是必要的，以区分两者（当然没有正文另当别论）。
-如果并在一起，rebase 这样的工具就可能会迷惑。
+ 如果必要，此处展开详尽阐述。段落宽度限定在 72 个字符以内。
+ 某些情况下，第一行的简要描述将用作邮件标题，其余部分作为邮件正文。
+ 其间的空行是必要的，以区分两者（当然没有正文另当别论）。
+ 如果并在一起，rebase 这样的工具就可能会迷惑。
+ 
+ 另起空行后，再进一步补充其他说明。
+ 
+  - 可以使用这样的条目列举式。
+  
+  - 一般以单个空格紧跟短划线或者星号作为每项条目的起始符。每个条目间用一空行隔开。
+    不过这里按自己项目的约定，可以略作变化。
 
-另起空行后，再进一步补充其他说明。
-
- - 可以使用这样的条目列举式。
-
- - 一般以单个空格紧跟短划线或者星号作为每项条目的起始符。每个条目间用一空行隔开。
-   不过这里按自己项目的约定，可以略作变化。
 如果你的提交说明都用这样的格式来书写，好多事情就可以变得十分简单。Git 项目本身就是这样要求的，我强烈建议你到 Git 项目仓库下运行 git log --no-merges 看看，所有提交历史的说明是怎样撰写的。（译注::如果现在还没有克隆 git 项目源代码，是时候 git clone git://git.kernel.org/pub/scm/git/git.git 了。）
 
 为简单起见，在接下来的例子（及本书随后的所有演示）中，我都不会用这种格式，而使用 -m 选项提交 git commit。不过请还是按照我之前讲的做，别学我这里偷懒的方式。
 
 私有的小型团队
+-------------------------------
+
 我们从最简单的情况开始，一个私有项目，与你一起协作的还有另外一到两位开发者。这里说私有，是指源代码不公开，其他人无法访问项目仓库。而你和其他开发者则都具有推送数据到仓库的权限。
 
-这种情况下，你们可以用 Subversion 或其他集中式版本控制系统类似的工作流来协作。你仍然可以得到 Git 带来的其他好处::离线提交，快速分支与合并等等，但工作流程还是差不多的。主要区别在于，合并操作发生在客户端而非服务器上。让我们来看看，两个开发者一起使用同一个共享仓库，会发生些什么。第一个人，John，克隆了仓库，作了些更新，在本地提交。（下面的例子中省略了常规提示，用 ... 代替以节约版面。）
+这种情况下，你们可以用 Subversion 或其他集中式版本控制系统类似的工作流来协作。你仍然可以得到 Git 带来的其他好处:离线提交，快速分支与合并等等，但工作流程还是差不多的。主要区别在于，合并操作发生在客户端而非服务器上。让我们来看看，两个开发者一起使用同一个共享仓库，会发生些什么。第一个人，John，克隆了仓库，作了些更新，在本地提交。（下面的例子中省略了常规提示，用 ... 代替以节约版面。）::
 
  # John's Machine
  $ git clone john@githost:simplegit.git
@@ -64,7 +69,7 @@
  [master 738ee87] removed invalid default value
   1 files changed, 1 insertions(+), 1 deletions(-)
 
-第二个开发者，Jessica，一样这么做::克隆仓库，提交更新::
+第二个开发者，Jessica，一样这么做:克隆仓库，提交更新::
 
  # Jessica's Machine
  $ git clone jessica@githost:simplegit.git
@@ -101,9 +106,10 @@ John 的推送操作被驳回，因为 Jessica 已经推送了新的数据上去
 
 此刻，John 的本地仓库如图 5-4 所示:
 
-
+.. image:: /_static/images/18333fig0504-tn.png
 
 图 5-4. John 的仓库历史
+
 虽然 John 下载了 Jessica 推送到服务器的最近更新（fbff5），但目前只是 origin/master 指针指向它，而当前的本地分支 master 仍然指向自己的更新（738ee），所以需要先把她的提交合并过来，才能继续推送数据::
 
  $ git merge origin/master
@@ -111,11 +117,12 @@ John 的推送操作被驳回，因为 Jessica 已经推送了新的数据上去
   TODO |    1 +
   1 files changed, 1 insertions(+), 0 deletions(-)
 
-还好，合并过程非常顺利，没有冲突，现在 John 的提交历史如图 5-5 所示::
+还好，合并过程非常顺利，没有冲突，现在 John 的提交历史如图 5-5 所示:
 
-
+.. image:: /_static/images/18333fig0505-tn.png
 
 图 5-5. 合并 origin/master 后 John 的仓库历史
+
 现在，John 应该再测试一下代码是否仍然正常工作，然后将合并结果（72bbc）推送到服务器上::
 
  $ git push origin master
@@ -123,16 +130,18 @@ John 的推送操作被驳回，因为 Jessica 已经推送了新的数据上去
  To john@githost:simplegit.git
     fbff5bc..72bbc59  master -> master
 
-最终，John 的提交历史变为图 5-6 所示::
+最终，John 的提交历史变为图 5-6 所示:
 
-
+.. image:: /_static/images/18333fig0506-tn.png
 
 图 5-6. 推送后 John 的仓库历史
-而在这段时间，Jessica 已经开始在另一个特性分支工作了。她创建了 issue54 并提交了三次更新。她还没有下载 John 提交的合并结果，所以提交历史如图 5-7 所示::
 
+而在这段时间，Jessica 已经开始在另一个特性分支工作了。她创建了 issue54 并提交了三次更新。她还没有下载 John 提交的合并结果，所以提交历史如图 5-7 所示:
 
+.. image:: /_static/images/18333fig0507-tn.png
 
 图 5-7. Jessica 的提交历史
+
 Jessica 想要先和服务器上的数据同步，所以先下载数据::
 
  # Jessica's Machine
@@ -141,11 +150,12 @@ Jessica 想要先和服务器上的数据同步，所以先下载数据::
  From jessica@githost:simplegit
     fbff5bc..72bbc59  master     -> origin/master
 
-于是 Jessica 的本地仓库历史多出了 John 的两次提交（738ee 和 72bbc），如图 5-8 所示::
+于是 Jessica 的本地仓库历史多出了 John 的两次提交（738ee 和 72bbc），如图 5-8 所示:
 
-
+.. image:: /_static/images/18333fig0508-tn.png
 
 图 5-8. 获取 John 的更新之后 Jessica 的提交历史
+
 此时，Jessica 在特性分支上的工作已经完成，但她想在推送数据之前，先确认下要并进来的数据究竟是什么，于是运行 git log 查看::
 
  $ git log --no-merges origin/master ^issue54
@@ -160,7 +170,8 @@ Jessica 想要先和服务器上的数据同步，所以先下载数据::
  $ git checkout master
  Switched to branch "master"
  Your branch is behind 'origin/master' by 2 commits, and can be fast-forwarded.
-要合并 origin/master 或 issue54 分支，谁先谁后都没有关系，因为它们都在上游（upstream）（译注::想像分叉的更新像是汇流成河的源头，所以上游 upstream 是指最新的提交），所以无所谓先后顺序，最终合并后的内容快照都是一样的，而仅是提交历史看起来会有些先后差别。Jessica 选择先合并 issue54::
+ 
+要合并 origin/master 或 issue54 分支，谁先谁后都没有关系，因为它们都在上游（upstream）（译注:想像分叉的更新像是汇流成河的源头，所以上游 upstream 是指最新的提交），所以无所谓先后顺序，最终合并后的内容快照都是一样的，而仅是提交历史看起来会有些先后差别。Jessica 选择先合并 issue54::
 
  $ git merge issue54
  Updating fbff5bc..4af4298
@@ -168,6 +179,7 @@ Jessica 想要先和服务器上的数据同步，所以先下载数据::
   README           |    1 +
   lib/simplegit.rb |    6 +++++-
   2 files changed, 6 insertions(+), 1 deletions(-)
+  
 正如所见，没有冲突发生，仅是一次简单快进。现在 Jessica 开始合并 John 的工作（origin/master）::
 
  $ git merge origin/master
@@ -175,28 +187,35 @@ Jessica 想要先和服务器上的数据同步，所以先下载数据::
  Merge made by recursive.
   lib/simplegit.rb |    2 +-
   1 files changed, 1 insertions(+), 1 deletions(-)
-所有的合并都非常干净。现在 Jessica 的提交历史如图 5-9 所示::
+  
+所有的合并都非常干净。现在 Jessica 的提交历史如图 5-9 所示:
 
-
+.. image:: /_static/images/18333fig0509-tn.png
 
 图 5-9. 合并 John 的更新后 Jessica 的提交历史
+
 现在 Jessica 已经可以在自己的 master 分支中访问 origin/master 的最新改动了，所以她应该可以成功推送最后的合并结果到服务器上（假设 John 此时没再推送新数据上来）::
 
  $ git push origin master
  ...
  To jessica@githost:simplegit.git
     72bbc59..8059c15  master -> master
-至此，每个开发者都提交了若干次，且成功合并了对方的工作成果，最新的提交历史如图 5-10 所示::
+    
+至此，每个开发者都提交了若干次，且成功合并了对方的工作成果，最新的提交历史如图 5-10 所示:
 
-
+.. image:: /_static/images/18333fig0510-tn.png
 
 图 5-10. Jessica 推送数据后的提交历史
-以上就是最简单的协作方式之一::先在自己的特性分支中工作一段时间，完成后合并到自己的 master 分支；然后下载合并 origin/master 上的更新（如果有的话），再推回远程服务器。一般的协作流程如图 5-11 所示::
 
+以上就是最简单的协作方式之一::先在自己的特性分支中工作一段时间，完成后合并到自己的 master 分支；然后下载合并 origin/master 上的更新（如果有的话），再推回远程服务器。一般的协作流程如图 5-11 所示:
 
+.. image:: /_static/images/18333fig0511-tn.png
 
 图 5-11. 多用户共享仓库协作方式的一般工作流程时序
+
 私有团队间协作
+--------------------
+
 现在我们来看更大一点规模的私有团队协作。如果有几个小组分头负责若干特性的开发和集成，那他们之间的协作过程是怎样的。
 
 假设 John 和 Jessica 一起负责开发某项特性 A，而同时 Jessica 和 Josie 一起负责开发另一项功能 B。公司使用典型的集成管理员式工作流，每个组都有一名管理员负责集成本组代码，及更新项目主仓库的 master 分支。所有开发都在代表小组的分支上进行。
@@ -210,18 +229,21 @@ Jessica 想要先和服务器上的数据同步，所以先下载数据::
  $ git commit -am 'add limit to log function'
  [featureA 3300904] add limit to log function
   1 files changed, 1 insertions(+), 1 deletions(-)
+  
 此刻，她需要分享目前的进展给 John，于是她将自己的 featureA 分支提交到服务器。由于 Jessica 没有权限推送数据到主仓库的 master 分支（只有集成管理员有此权限），所以只能将此分支推上去同 John 共享协作::
 
  $ git push origin featureA
  ...
  To jessica@githost:simplegit.git
   * [new branch]      featureA -> featureA
+  
 Jessica 发邮件给 John 让他上来看看 featureA 分支上的进展。在等待他的反馈之前，Jessica 决定继续工作，和 Josie 一起开发 featureB 上的特性 B。当然，先创建此分支，分叉点以服务器上的 master 为起点::
 
  # Jessica's Machine
  $ git fetch origin
  $ git checkout -b featureB origin/master
  Switched to a new branch "featureB"
+ 
 随后，Jessica 在 featureB 上提交了若干更新::
 
  $ vim lib/simplegit.rb
@@ -232,17 +254,20 @@ Jessica 发邮件给 John 让他上来看看 featureA 分支上的进展。在�
  $ git commit -am 'add ls-files'
  [featureB 8512791] add ls-files
   1 files changed, 5 insertions(+), 0 deletions(-)
-现在 Jessica 的更新历史如图 5-12 所示::
+  
+现在 Jessica 的更新历史如图 5-12 所示:
 
-
+.. image:: /_static/images/18333fig0512-tn.png
 
 图 5-12. Jessica 的更新历史
+
 Jessica 正准备推送自己的进展上去，却收到 Josie 的来信，说是她已经将自己的工作推到服务器上的 featureBee 分支了。这样，Jessica 就必须先将 Josie 的代码合并到自己本地分支中，才能再一起推送回服务器。她用 git fetch 下载 Josie 的最新代码::
 
  $ git fetch origin
  ...
  From jessica@githost:simplegit
   * [new branch]      featureBee -> origin/featureBee
+  
 然后 Jessica 使用 git merge 将此分支合并到自己分支中::
 
  $ git merge origin/featureBee
@@ -250,12 +275,14 @@ Jessica 正准备推送自己的进展上去，却收到 Josie 的来信，说�
  Merge made by recursive.
   lib/simplegit.rb |    4 ++++
   1 files changed, 4 insertions(+), 0 deletions(-)
+  
 合并很顺利，但另外有个小问题::她要推送自己的 featureB 分支到服务器上的 featureBee 分支上去。当然，她可以使用冒号（:）格式指定目标分支::
 
  $ git push origin featureB:featureBee
  ...
  To jessica@githost:simplegit.git
     fba9af8..cd685d1  featureB -> featureBee
+    
 我们称此为refspec。更多有关于 Git refspec 的讨论和使用方式会在第九章作详细阐述。
 
 接下来，John 发邮件给 Jessica 告诉她，他看了之后作了些修改，已经推回服务器 featureA 分支，请她过目下。于是 Jessica 运行 git fetch 下载最新数据::
@@ -264,6 +291,7 @@ Jessica 正准备推送自己的进展上去，却收到 Josie 的来信，说�
  ...
  From jessica@githost:simplegit
     3300904..aad881d  featureA   -> origin/featureA
+    
 接下来便可以用 git log 查看更新了些什么::
 
  $ git log origin/featureA ^featureA
@@ -272,6 +300,7 @@ Jessica 正准备推送自己的进展上去，却收到 Josie 的来信，说�
  Date:   Fri May 29 19:57:33 2009 -0700 
 
      changed log output to 30 from 25
+     
 最后，她将 John 的工作合并到自己的 featureA 分支中::
 
  $ git checkout featureA
@@ -290,22 +319,28 @@ Jessica 正准备推送自己的进展上去，却收到 Josie 的来信，说�
  ...
  To jessica@githost:simplegit.git
     3300904..ed774b3  featureA -> featureA
-现在的 Jessica 提交历史如图 5-13 所示::
+    
+现在的 Jessica 提交历史如图 5-13 所示:
 
-
+.. image:: /_static/images/18333fig0513-tn.png
 
 图 5-13. 在特性分支中提交更新后的提交历史
-现在，Jessica，Josie 和 John 通知集成管理员服务器上的 featureA 及 featureBee 分支已经准备好，可以并入主线了。在管理员完成集成工作后，主分支上便多出一个新的合并提交（5399e），用 fetch 命令更新到本地后，提交历史如图 5-14 所示::
 
+现在，Jessica，Josie 和 John 通知集成管理员服务器上的 featureA 及 featureBee 分支已经准备好，可以并入主线了。在管理员完成集成工作后，主分支上便多出一个新的合并提交（5399e），用 fetch 命令更新到本地后，提交历史如图 5-14 所示:
 
+.. image:: /_static/images/18333fig0514-tn.png
 
 图 5-14. 合并特性分支后的 Jessica 提交历史
-许多开发小组改用 Git 就是因为它允许多个小组间并行工作，而在稍后恰当时机再行合并。通过共享远程分支的方式，无需干扰整体项目代码便可以开展工作，因此使用 Git 的小型团队间协作可以变得非常灵活自由。以上工作流程的时序如图 5-15 所示::
 
+许多开发小组改用 Git 就是因为它允许多个小组间并行工作，而在稍后恰当时机再行合并。通过共享远程分支的方式，无需干扰整体项目代码便可以开展工作，因此使用 Git 的小型团队间协作可以变得非常灵活自由。以上工作流程的时序如图 5-15 所示:
 
+.. image:: /_static/images/18333fig0515-tn.png
 
 图 5-15. 团队间协作工作流程基本时序
+
 公开的小型项目
+------------------------------
+
 上面说的是私有项目协作，但要给公开项目作贡献，情况就有些不同了。因为你没有直接更新主仓库分支的权限，得寻求其它方式把工作成果交给项目维护人。下面会介绍两种方法，第一种使用 git 托管服务商提供的仓库复制功能，一般称作 fork，比如 repo.or.cz 和 GitHub 都支持这样的操作，而且许多项目管理员都希望大家使用这样的方式。另一种方法是通过电子邮件寄送文件补丁。
 
 但不管哪种方式，起先我们总需要克隆原始仓库，而后创建特性分支开展工作。基本工作流程如下::
@@ -317,14 +352,17 @@ Jessica 正准备推送自己的进展上去，却收到 Josie 的来信，说�
  $ git commit
  $ (work)
  $ git commit
+ 
 你可能想到用 rebase -i 将所有更新先变作单个提交，又或者想重新安排提交之间的差异补丁，以方便项目维护者审阅 -- 有关交互式衍合操作的细节见第六章。
 
 在完成了特性分支开发，提交给项目维护者之前，先到原始项目的页面上点击“Fork”按钮，创建一个自己可写的公共仓库（译注::即下面的 url 部分，参照后续的例子，应该是 git://githost/simplegit.git）。然后将此仓库添加为本地的第二个远端仓库，姑且称为 myfork::
 
  $ git remote add myfork (url)
+ 
 你需要将本地更新推送到这个仓库。要是将远端 master 合并到本地再推回去，还不如把整个特性分支推上去来得干脆直接。而且，假若项目维护者未采纳你的贡献的话（不管是直接合并还是 cherry pick），都不用回退（rewind）自己的 master 分支。但若维护者合并或 cherry-pick 了你的工作，最后总还可以从他们的更新中同步这些代码。好吧，现在先把 featureA 分支整个推上去::
 
  $ git push myfork featureA
+ 
 然后通知项目管理员，让他来抓取你的代码。通常我们把这件事叫做 pull request。可以直接用 GitHub 等网站提供的 “pull request” 按钮自动发送请求通知；或手工把 git request-pull 命令输出结果电邮给项目管理员。
 
 request-pull 命令接受两个参数，第一个是本地特性分支开始前的原始分支，第二个是请求对方来抓取的 Git 仓库 URL（译注::即下面 myfork 所指的，自己可写的公共仓库）。比如现在Jessica 准备要给 John 发一个 pull requst，她之前在自己的特性分支上提交了两次更新，并把分支整个推到了服务器上，所以运行该命令会看到::
@@ -356,22 +394,24 @@ request-pull 命令接受两个参数，第一个是本地特性分支开始前�
  $ (email maintainer)
  $ git fetch origin
 
-现在，A、B 两个特性分支各不相扰，如同竹筒里的两颗豆子，队列中的两个补丁，你随时都可以分别从头写过，或者衍合，或者修改，而不用担心特性代码的交叉混杂。如图 5-16 所示::
+现在，A、B 两个特性分支各不相扰，如同竹筒里的两颗豆子，队列中的两个补丁，你随时都可以分别从头写过，或者衍合，或者修改，而不用担心特性代码的交叉混杂。如图 5-16 所示:
 
-
+.. image:: /_static/images/18333fig0516-tn.png
 
 图 5-16. featureB 以后的提交历史
+
 假设项目管理员接纳了许多别人提交的补丁后，准备要采纳你提交的第一个分支，却发现因为代码基准不一致，合并工作无法正确干净地完成。这就需要你再次衍合到最新的 origin/master，解决相关冲突，然后重新提交你的修改::
 
  $ git checkout featureA
  $ git rebase origin/master
  $ git push -f myfork featureA
 
-自然，这会重写提交历史，如图 5-17 所示::
+自然，这会重写提交历史，如图 5-17 所示:
 
-
+.. image:: /_static/images/18333fig0517-tn.png
 
 图 5-17. featureA 重新衍合后的提交历史
+
 注意，此时推送分支必须使用 -f 选项（译注::表示 force，不作检查强制重写）替换远程已有的 featureA 分支，因为新的 commit 并非原来的后续更新。当然你也可以直接推送到另一个新的分支上去，比如称作 featureAv2。
 
 再考虑另一种情形::管理员看过第二个分支后觉得思路新颖，但想请你改下具体实现。我们只需以当前 origin/master 分支为基准，开始一个新的特性分支 featureBv2，然后把原来的 featureB 的更新拿过来，解决冲突，按要求重新实现部分代码，然后将此特性分支推送上去::
@@ -384,15 +424,18 @@ request-pull 命令接受两个参数，第一个是本地特性分支开始前�
 
 这里的 --squash 选项将目标分支上的所有更改全拿来应用到当前分支上，而 --no-commit 选项告诉 Git 此时无需自动生成和记录（合并）提交。这样，你就可以在原来代码基础上，继续工作，直到最后一起提交。
 
-好了，现在可以请管理员抓取 featureBv2 上的最新代码了，如图 5-18 所示::
+好了，现在可以请管理员抓取 featureBv2 上的最新代码了，如图 5-18 所示:
 
-
+.. image:: /_static/images/18333fig0518-tn.png
 
 图 5-18. featureBv2 之后的提交历史
+
 公开的大型项目
+------------------------
+
 许多大型项目都会立有一套自己的接受补丁流程，你应该注意下其中细节。但多数项目都允许通过开发者邮件列表接受补丁，现在我们来看具体例子。
 
-整个工作流程类似上面的情形::为每个补丁创建独立的特性分支，而不同之处在于如何提交这些补丁。不需要创建自己可写的公共仓库，也不用将自己的更新推送到自己的服务器，你只需将每次提交的差异内容以电子邮件的方式依次发送到邮件列表中即可。
+整个工作流程类似上面的情形::为每个补丁创建独立的特性分支，而不同之处在于如何提交这些补丁。不需要创建自己可写的公共仓库，也不用将自己的更新推送到自己的服务器，你只需将每次提交的差异内容以电子邮件的方式依次发送到邮件列表中即可::
 
  $ git checkout -b topicA
  $ (work)

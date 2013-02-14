@@ -32,12 +32,15 @@ Git属性
  diff --git a/chapter1.doc b/chapter1.doc
  index 88839c4..4afcb7c 100644
  Binary files a/chapter1.doc and b/chapter1.doc differ
+ 
 你不能直接比较两个不同版本的Word文件，除非进行手动扫描，不是吗？ Git 属性能很好地解决此问题，把下面的行加到.gitattributes文件::
 
  *.doc diff=word
+ 
 当你要看比较结果时，如果文件扩展名是"doc"，Git 调用"word"过滤器。什么是"word"过滤器呢？其实就是 Git 使用strings 程序，把Word文档转换成可读的文本文件，之后再进行比较::
 
  $ git config diff.word.textconv strings
+ 
 现在如果在两个快照之间比较以.doc结尾的文件，Git 对这些文件运用"word"过滤器，在比较前把Word文件转换成文本文件。
 
 下面展示了一个实例，我把此书的第一章纳入 Git 管理，在一个段落中加入了一些文本后保存，之后运行git diff命令，得到结果如下::
@@ -61,6 +64,7 @@ Git 成功且简洁地显示出我增加的文本"Let’s see if this works"。�
 
  $ echo '*.png diff=exif' >> .gitattributes
  $ git config diff.exif.textconv exiftool
+ 
 如果在项目中替换了一个图像文件，运行git diff命令的结果如下::
 
  diff --git a/image.png b/image.png
@@ -81,6 +85,7 @@ Git 成功且简洁地显示出我增加的文本"Let’s see if this works"。�
  +Image Height                    : 827
   Bit Depth                       : 8
   Color Type                      : RGB with Alpha
+  
 你会发现文件的尺寸大小发生了改变。
 
 关键字扩展
@@ -91,29 +96,35 @@ Git 成功且简洁地显示出我增加的文本"Let’s see if this works"。�
 
  $ echo '*.txt ident' >> .gitattributes
  $ echo '$Id$' > test.txt
+ 
 下次签出文件时，Git 入了blob的SHA值::
 
  $ rm text.txt
  $ git checkout -- text.txt
  $ cat test.txt
  $Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
+ 
 然而，这样的显示结果没有多大的实际意义。这个SHA的值相当地随机，无法区分日期的前后，所以，如果你在CVS或Subversion中用过关键字替换，一定会包含一个日期值。
 
 因此，你能写自己的过滤器，在提交文件到暂存区或签出文件时替换关键字。有2种过滤器，"clean"和"smudge"。在 .gitattributes文件中，你能对特定的路径设置一个过滤器，然后设置处理文件的脚本，这些脚本会在文件签出前（"smudge"，见图 7-2）和提交到暂存区前（"clean"，见图7-3）被调用。这些过滤器能够做各种有趣的事。
 
-
+.. image:: /_static/images/18333fig0702-tn.png
 
 图7-2. 签出时，“smudge”过滤器被触发。
 
+.. image:: /_static/images/18333fig0703-tn.png
 
 图7-3. 提交到暂存区时，“clean”过滤器被触发。
+
 这里举一个简单的例子::在暂存前，用indent（缩进）程序过滤所有C源代码。在.gitattributes文件中设置"indent"过滤器过滤*.c文件::
  
  *.c     filter=indent
+ 
 然后，通过以下配置，让 Git 知道"indent"过滤器在遇到"smudge"和"clean"时分别该做什么::
 
  $ git config --global filter.indent.clean indent
  $ git config --global filter.indent.smudge cat
+ 
 于是，当你暂存*.c文件时，indent程序会被触发，在把它们签出之前，cat程序会被触发。但cat程序在这里没什么实际作用。这样的组合，使C源代码在暂存前被indent程序过滤，非常有效。
 
 另一个例子是类似RCS的$Date$关键字扩展。为了演示，需要一个小脚本，接受文件名参数，得到项目的最新提交日期，最后把日期写入该文件。下面用Ruby脚本来实现::
@@ -122,14 +133,17 @@ Git 成功且简洁地显示出我增加的文本"Let’s see if this works"。�
  data = STDIN.read
  last_date = `git log --pretty=format:"%ad" -1`
  puts data.gsub('$Date$', '$Date: ' + last_date.to_s + '$')
+ 
 该脚本从git log命令中得到最新提交日期，找到文件中的所有$Date$字符串，最后把该日期填充到$Date$字符串中 — 此脚本很简单，你可以选择你喜欢的编程语言来实现。把该脚本命名为expand_date，放到正确的路径中，之后需要在 Git 中设置一个过滤器（dater），让它在签出文件时调用expand_date，在暂存文件时用Perl清除之::
 
  $ git config filter.dater.smudge expand_date
  $ git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
+ 
 这个Perl小程序会删除$Date$字符串里多余的字符，恢复$Date$原貌。到目前为止，你的过滤器已经设置完毕，可以开始测试了。打开一个文件，在文件中输入$Date$关键字，然后设置 Git 属性::
 
  $ echo '# $Date$' > date_test.txt
  $ echo 'date*.txt filter=dater' >> .gitattributes
+ 
 如果暂存该文件，之后再签出，你会发现关键字被替换了::
 
  $ git add date_test.txt .gitattributes
@@ -138,12 +152,13 @@ Git 成功且简洁地显示出我增加的文本"Let’s see if this works"。�
  $ git checkout date_test.txt
  $ cat date_test.txt
  # $Date: Tue Apr 21 07:26:52 2009 -0700$
+ 
 虽说这项技术对自定义应用来说很有用，但还是要小心，因为.gitattributes文件会随着项目一起提交，而过滤器（例如::dater）不会，所以，过滤器不会在所有地方都生效。当你在设计这些过滤器时要注意，即使它们无法正常工作，也要让整个项目运作下去。
 
 导出仓库
 ------------------
 
-Git属性在导出项目归档时也能发挥作用。
+Git属性在导出项目归档时也能发挥作用::
 
  export-ignore
 
@@ -153,7 +168,7 @@ Git属性在导出项目归档时也能发挥作用。
 
  test/ export-ignore
  
-现在，当运行git archive来创建项目的压缩包时，那个目录不会在归档中出现。
+现在，当运行git archive来创建项目的压缩包时，那个目录不会在归档中出现::
 
  export-subst
 
@@ -171,6 +186,7 @@ Git属性在导出项目归档时也能发挥作用。
 
 合并策略
 -------------------
+
 通过 Git 属性，还能对项目中的特定文件使用不同的合并策略。一个非常有用的选项就是，当一些特定文件发生冲突，Git 会尝试合并他们，而使用你这边的合并。
 
 如果项目的一个分支有歧义或比较特别，但你想从该分支合并，而且需要忽略其中某些文件，这样的合并策略是有用的。例如，你有一个数据库设置文件database.xml，在2个分支中他们是不同的，你想合并一个分支到另一个，而不弄乱该数据库文件，可以设置属性如下::

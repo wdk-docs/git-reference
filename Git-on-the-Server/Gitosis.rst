@@ -29,7 +29,7 @@ Gitosis 将会帮我们管理用户公钥，所以先把当前控制文件改名
 
  git:x:1000:1000::/home/git:/usr/bin/git-shell
 
-改回:
+改回::
 
  git:x:1000:1000::/home/git:/bin/sh
 
@@ -42,6 +42,7 @@ Gitosis 将会帮我们管理用户公钥，所以先把当前控制文件改名
 这样该公钥的拥有者就能修改用于配置 Gitosis 的那个特殊 Git 仓库了。接下来，需要手工对该仓库中的 post-update 脚本加上可执行权限::
 
  $ sudo chmod 755 /opt/git/gitosis-admin.git/hooks/post-update
+ 
 基本上就算是好了。如果设定过程没出什么差错，现在可以试一下用初始化 Gitosis 的公钥的拥有者身份 SSH 登录服务器，应该会看到类似下面这样::
 
  $ ssh git@gitserver
@@ -51,8 +52,9 @@ Gitosis 将会帮我们管理用户公钥，所以先把当前控制文件改名
 
 说明 Gitosis 认出了该用户的身份，但由于没有运行任何 Git 命令，所以它切断了连接。那么，现在运行一个实际的 Git 命令 — 克隆 Gitosis 的控制仓库::
 
-# 在你本地计算机上
+ # 在你本地计算机上
  $ git clone git@gitserver:gitosis-admin.git
+
 这会得到一个名为 gitosis-admin 的工作目录，主要由两部分组成::
  
  $ cd gitosis-admin
@@ -92,6 +94,7 @@ gitosis.conf 文件是用来设置用户、仓库和权限的控制文件。keyd
  Total 3 (delta 1), reused 0 (delta 0)
  To git@gitserver:/opt/git/gitosis-admin.git
     fb27aec..8962da8  master -> master
+    
 在新工程 iphone_project 里首次推送数据到服务器前，得先设定该服务器地址为远程仓库。但你不用事先到服务器上手工创建该项目的裸仓库— Gitosis 会在第一次遇到推送时自动创建::
 
  $ git remote add origin git@gitserver:iphone_project.git
@@ -113,9 +116,10 @@ gitosis.conf 文件是用来设置用户、仓库和权限的控制文件。keyd
 
 然后把他们都加进 'mobile' 团队，让他们对 iphone_project 具有读写权限::
 
-[group mobile]
-writable = iphone_project
-members = scott john josie jessica
+ [group mobile]
+ writable = iphone_project
+ members = scott john josie jessica
+
 如果你提交并推送这个修改，四个用户将同时具有该项目的读写权限。
 
 Gitosis 也具有简单的访问控制功能。如果想让 John 只有读权限，可以这样做::

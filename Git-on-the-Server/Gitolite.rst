@@ -22,7 +22,7 @@ We will describe this last method in this article; for the other methods please 
 
 You start by obtaining public key based access to your server, so that you can log in from your workstation to the server without getting a password prompt. The following method works on Linux; for other workstation OSs you may have to do this manually. We assume you already had a key pair generated using ssh-keygen::
 
-$ ssh-copy-id -i ~/.ssh/id_rsa gitolite@gitserver
+ $ ssh-copy-id -i ~/.ssh/id_rsa gitolite@gitserver
 
 This will ask you for the password to the gitolite account, and then set up public key access. This is essential for the install script, so check to make sure you can run a command without getting a password prompt::
 
@@ -54,7 +54,9 @@ To clone these same repos from any other account::
 
 While the default, quick, install works for most people, there are some ways to customise the install if you need to. If you omit the -q argument, you get a "verbose" mode install -- detailed information on what the install is doing at each step. The verbose mode also allows you to change certain server-side parameters, such as the location of the actual repositories, by editing an "rc" file that the server uses. This "rc" file is liberally commented so you should be able to make any changes you need quite easily, save it, and continue. This file also contains various settings that you can change to enable or disable some of gitolite's advanced features.
 
-Config File and Access Control Rules
+配置文件和存取控制规则
+-------------------------------------------------
+
 Once the install is done, you switch to the gitolite-admin repository (placed in your HOME directory) and poke around to see what you got::
 
  $ cd ~/gitolite-admin/
@@ -112,7 +114,7 @@ There are two levels of access control in gitolite. The first is at the reposito
 
 The second level, applicable only to "write" access, is by branch or tag within a repository. The username, the access being attempted (W or +), and the refname being updated are known. The access rules are checked in order of appearance in the config file, looking for a match for this combination (but remember that the refname is regex-matched, not merely string-matched). If a match is found, the push succeeds. A fallthrough results in access being denied.
 
-Advanced Access Control with "deny" rules
+带"deny"规则高级访问控制
 --------------------------------------------------
 
 So far, we've only seen permissions to be one or R, RW, or RW+. However, gitolite allows another permission: -, standing for "deny". This gives you a lot more power, at the expense of some complexity, because now fallthrough is not the only way for access to be denied, so the order of the rules now matters!
@@ -139,7 +141,7 @@ In addition to restricting what branches a user can push changes to, you can als
 
 This powerful feature is documented in conf/example.conf.
 
-Personal Branches
+个人分支
 ----------------------------------
 
 Gitolite also has a feature called "personal branches" (or rather, "personal branch namespace") that can be very useful in a corporate environment.
@@ -150,12 +152,12 @@ This would normally cause the same branch name clutter as in a centralised VCS, 
 
 Gitolite lets you define a "personal" or "scratch" namespace prefix for each developer (for example, refs/personal/<devname>/*); see the "personal branches" section in doc/3-faq-tips-etc.mkd for details.
 
-"Wildcard" repositories
+"Wildcard（通配符）"库
 --------------------------------------
 
 Gitolite allows you to specify repositories with wildcards (actually perl regexes), like, for example assignments/s[0-9][0-9]/a[0-9][0-9], to pick a random example. This is a very powerful feature, which has to be enabled by setting $GL_WILDREPOS = 1; in the rc file. It allows you to assign a new permission mode ("C") which allows users to create repositories based on such wild cards, automatically assigns ownership to the specific user who created it, allows him/her to hand out R and RW permissions to other users to collaborate, etc. This feature is documented in doc/4-wildcard-repositories.mkd.
 
-Other Features
+其他功能
 ----------------------------
 
 We'll round off this discussion with a sampling of other features, all of which, and many more, are described in great detail in the "faqs, tips, etc" and other documents.

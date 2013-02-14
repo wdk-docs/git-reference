@@ -30,7 +30,7 @@ Git 通过子模块处理这个问题。子模块允许你将一个 Git 仓库�
  #      new file:   rack
  #
 
-首先你注意到有一个.gitmodules文件。这是一个配置文件，保存了项目 URL 和你拉取到的本地子目录
+首先你注意到有一个.gitmodules文件。这是一个配置文件，保存了项目 URL 和你拉取到的本地子目录::
 
  $ cat .gitmodules 
  [submodule "rack"]
@@ -158,7 +158,7 @@ rack目录存在了，但是是空的。你必须运行两个命令::git submodu
  fatal: reference isn’t a tree: 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
  Unable to checkout '6c5e70b984a60b3cecd395edd5ba7575bf58e0' in submodule path 'rack'
 
-你不得不去查看谁最后变更了子模块
+你不得不去查看谁最后变更了子模块::
 
  $ git log -1 rack
  commit 85a3eee996800fcfa91e2119372dd4172bf76678
@@ -183,7 +183,7 @@ rack目录存在了，但是是空的。你必须运行两个命令::git submodu
 
 为了避免这个问题，当你在子模块目录里工作时应使用git checkout -b work创建一个分支。当你再次在子模块里更新的时候，它仍然会覆盖你的工作，但是至少你拥有一个可以回溯的指针。
 
-切换带有子模块的分支同样也很有技巧。如果你创建一个新的分支，增加了一个子模块，然后切换回不带该子模块的分支，你仍然会拥有一个未被追踪的子模块的目录
+切换带有子模块的分支同样也很有技巧。如果你创建一个新的分支，增加了一个子模块，然后切换回不带该子模块的分支，你仍然会拥有一个未被追踪的子模块的目录::
 
  $ git checkout -b rack
  Switched to a new branch "rack"
